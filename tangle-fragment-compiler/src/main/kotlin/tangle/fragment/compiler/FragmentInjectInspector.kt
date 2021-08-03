@@ -36,7 +36,7 @@ class FragmentInjectInspector : CodeGenerator {
               .getDescriptorsFiltered(DescriptorKindFilter.VALUES)
               // no point in parsing android/androidx classes for injected params, so skip them
               .filter { it.containingPackage()?.asString()?.startsWith("android") == false }
-              .onEach { it. }
+              .onEach { }
 
 
             require(false) {
