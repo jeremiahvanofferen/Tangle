@@ -145,6 +145,44 @@ class FragmentInjectGeneratorTest : BaseTest() {
   }
 
   @TestFactory
+  fun `fffffffffffffff`() = test {
+    compile(
+      """
+      package tangle.inject.tests
+
+      import androidx.fragment.app.Fragment
+      import tangle.fragment.*
+      import tangle.inject.TangleParam
+      import javax.inject.Inject
+
+      @ContributesFragment(Unit::class)
+      class MyFragment @FragmentInject constructor() : Fragment() {
+
+        val butt by lazy { "foo" }
+
+        @FragmentInjectFactory
+        interface Factory{
+          fun create(@TangleParam("name") name: String): Fragment
+        }
+      }
+      """
+    ) {
+      val factoryClass = myFragmentClass.factoryClass()
+      val factoryInstance = factoryClass.createStatic()
+
+      val factoryImplClass = myFragmentFactoryImplClass
+
+      val factoryImplInstance = factoryImplClass.createInstance(factoryInstance)
+
+      factoryImplClass.declaredMethods
+        .filterNot { it.isStatic }
+        .filter { it.name == "create" }
+        .forEach {
+          it.invoke(factoryImplInstance, "name")::class.java shouldBe myFragmentClass
+        }
+    }
+  }
+  @TestFactory
   fun `factory interface return type may be supertype of the fragment`() = test {
     compile(
       """
