@@ -43,6 +43,10 @@ dependencies {
   implementation(libs.androidx.lifecycle.viewModel.compose)
   implementation(libs.androidx.savedstate)
 
+  androidTestImplementation(libs.androidx.navigation.common)
+  androidTestImplementation(libs.androidx.navigation.compose)
+  androidTestImplementation(libs.androidx.navigation.runtime.ktx)
+
   implementation(projects.tangleApi)
   implementation(projects.tangleViewmodelApi)
 }
